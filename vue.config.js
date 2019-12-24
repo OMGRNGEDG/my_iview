@@ -14,6 +14,7 @@ const path = require("path");
 const webpack = require("webpack");
 const resolve = dir => path.join(__dirname, dir);
 const isProduction = process.env.NODE_ENV === "production";
+const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 module.exports = {
   chainWebpack: config => {
     config.resolve.alias.set("@", resolve("src"));
@@ -43,6 +44,19 @@ module.exports = {
   configureWebpack: config => {
     if (isProduction) {
       config.plugins.push(new webpack.HashedModuleIdsPlugin());
+      config.plugins.push(
+        //生产环境自动删除console
+        new UglifyJsPlugin({
+          uglifyOptions: {
+            compress: {
+              drop_debugger: true,
+              drop_console: true
+            }
+          },
+          sourceMap: false,
+          parallel: true
+        })
+      );
       // 用cdn方式引入
       config.externals = {
         vue: "Vue",
