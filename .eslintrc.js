@@ -4,20 +4,17 @@ module.exports = {
   env: {
     node: true
   },
-
-  extends: ["plugin:vue/essential"],
+  plugins: ["vue"],
 
   rules: {
-    'no-console': 'off',
-    'no-debugger': 'off'
+    "no-console": "off",
+    "vue/html-self-closing": "off",
+    "no-debugger": "off"
   },
 
   parserOptions: {
-    parser: 'babel-eslint'
+    parser: "babel-eslint"
   },
 
-  'extends': [
-    'plugin:vue/essential',
-    '@vue/prettier'
-  ]
+  extends: ["plugin:vue/essential", "@vue/prettier"]
 };

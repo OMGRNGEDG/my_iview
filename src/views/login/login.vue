@@ -3,7 +3,12 @@
     <div class="login-con">
       <Card icon="log-in" title="欢迎登录" :bordered="false">
         <div class="form-con">
-          <Form ref="loginForm" :model="form" :rules="rules" @keydown.enter.native="handleSubmit">
+          <Form
+            ref="loginForm"
+            :model="form"
+            :rules="rules"
+            @keydown.enter.native="handleSubmit"
+          >
             <FormItem prop="userName">
               <Input v-model="form.userName" placeholder="请输入用户名">
                 <span slot="prepend">
@@ -12,7 +17,11 @@
               </Input>
             </FormItem>
             <FormItem prop="password">
-              <Input type="password" v-model="form.password" placeholder="请输入密码">
+              <Input
+                type="password"
+                v-model="form.password"
+                placeholder="请输入密码"
+              >
                 <span slot="prepend">
                   <Icon :size="14" type="md-lock"></Icon>
                 </span>
@@ -29,6 +38,7 @@
   </div>
 </template>
 <script>
+import { setToken } from "../../lib/utils";
 export default {
   props: {
     userNameRules: {
@@ -76,15 +86,13 @@ export default {
     handleSubmit() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
-          this.handleLogin({
+          let obj = {
             userName: this.form.userName,
             password: this.form.password
-          }).then(res => {
-            this.getUserInfo().then(res => {
-              this.$router.push({
-                name: this.$config.homeName
-              });
-            });
+          };
+          setToken(JSON.stringify(obj));
+          this.$router.replace({
+            name: "home"
           });
         }
       });
