@@ -43,8 +43,23 @@ export function decrypt(data) {
   return decryptedStr;
 }
 
-export const setToken = (token, tokenName = "token") => {
-  Cookies.set(tokenName, token);
+export const setToken = (token, tokenName = "TOKEN") => {
+  let parsewords = encryption(token);
+  Cookies.set(tokenName, parsewords);
 };
 
-export const getToken = (tokenName = "token") => Cookies.get(tokenName);
+export const getToken = (tokenName = "TOKEN") => {
+  if (Cookies.get(tokenName)) {
+    return decrypt(Cookies.get(tokenName));
+  } else {
+    return null;
+  }
+};
+
+/**
+ * 更改网站的title
+ * @param {string} title 标题
+ */
+export const changeTiele = (title = "管理系统") => {
+  window.document.title = title;
+};

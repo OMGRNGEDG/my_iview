@@ -103,7 +103,7 @@
 </template>
 
 <script>
-import { encryption, decrypt } from "../lib/utils";
+import { setToken, getToken } from "../lib/utils";
 export default {
   name: "HelloWorld",
   props: {
@@ -111,8 +111,8 @@ export default {
   },
   created() {
     var a = "17621682391";
-    console.log(encryption(a));
-    console.log(decrypt(encryption(a)));
+    setToken(a);
+    console.log(getToken());
   }
 };
 </script>
