@@ -1,4 +1,5 @@
 const state = {
-  goodList: "change"
+  goodList: "change",
+  userInfo: null
 }
 export default state

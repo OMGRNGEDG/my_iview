@@ -1,14 +1,14 @@
 
 import { requestPOST, request, requestGET } from "./ajax";
+
 /**
- * getToken
+ * 登录
  * 
  */
-
-export const getToken = (payload) => {
-  return request('applet/login', {
-    client_id: payload.client_id,
-    client_secret: payload.client_secret,
+export const userLogin = (payload) => {
+  return requestGET('user/entity', {
+      account: payload.account,
+      password: payload.password
   })
 }
 

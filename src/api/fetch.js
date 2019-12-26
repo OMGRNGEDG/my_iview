@@ -1,11 +1,9 @@
 import axios from 'axios';
-import config from '../config/index'
 
 // 区分项目生产环境还是开发环境，匹配对应的API地址
-const ajaxUrl = config.DOMAIN;
 // 创建axios实例
 const service = axios.create({
-  baseURL: ajaxUrl, // 域名URL
+  // baseURL: ajaxUrl, // 域名URL
   // `headers` 是即将被发送的自定义请求头
   // headers: {
   //   'Content-Type': 'application/json'

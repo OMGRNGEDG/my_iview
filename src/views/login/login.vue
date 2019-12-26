@@ -3,12 +3,7 @@
     <div class="login-con">
       <Card icon="log-in" title="欢迎登录" :bordered="false">
         <div class="form-con">
-          <Form
-            ref="loginForm"
-            :model="form"
-            :rules="rules"
-            @keydown.enter.native="handleSubmit"
-          >
+          <Form ref="loginForm" :model="form" :rules="rules" @keydown.enter.native="handleSubmit">
             <FormItem prop="userName">
               <Input v-model="form.userName" placeholder="请输入用户名">
                 <span slot="prepend">
@@ -17,11 +12,7 @@
               </Input>
             </FormItem>
             <FormItem prop="password">
-              <Input
-                type="password"
-                v-model="form.password"
-                placeholder="请输入密码"
-              >
+              <Input type="password" v-model="form.password" placeholder="请输入密码">
                 <span slot="prepend">
                   <Icon :size="14" type="md-lock"></Icon>
                 </span>
@@ -38,7 +29,8 @@
   </div>
 </template>
 <script>
-import { setToken } from "../../lib/utils";
+import { setToken } from "@/lib/utils";
+import { mapActions } from "vuex";
 export default {
   props: {
     userNameRules: {
@@ -69,7 +61,7 @@ export default {
   data() {
     return {
       form: {
-        userName: "super_admin",
+        userName: "test07",
         password: ""
       }
     };
@@ -83,19 +75,21 @@ export default {
     }
   },
   methods: {
-    handleSubmit() {
-      this.$refs.loginForm.validate(valid => {
-        if (valid) {
-          let obj = {
-            userName: this.form.userName,
-            password: this.form.password
-          };
-          setToken(JSON.stringify(obj));
+    ...mapActions(["login"]),
+    async handleSubmit() {
+      const isFlag = await this.$refs.loginForm.validate(valid => {
+        return valid;
+      });
+      if (isFlag === false) return;
+      this.login({ userName: this.form.userName, password: this.form.password })
+        .then(data => {
           this.$router.replace({
             name: "home"
           });
-        }
-      });
+        })
+        .catch(err => {
+          this.$Message.error(err);
+        });
     }
   }
 };

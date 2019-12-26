@@ -27,7 +27,7 @@ export async function request(path, payload) {
 }
 
 export async function requestGET(path, payload) {
-  return axios.get(path, {
+  return axios.get(constant.DOMAIN+path, {
     params: payload
   }).then(res => {
     return res.data

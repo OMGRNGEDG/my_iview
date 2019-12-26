@@ -6,5 +6,5 @@ export default {
   OKCODE: ["100", "104", "127", "117", "114"],
   USERINFO: null,
   // 接口地址信息
-  DOMAIN: isOnline ? 'http://localhost:8080/' : 'https://apfmtest.sandload.cn/', //测试地址
+  DOMAIN: isOnline ? 'http://49.234.157.173:8314/mch/' : 'http://49.234.157.173:8314/mch/', //测试地址
 }
