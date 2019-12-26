@@ -14,10 +14,5 @@ export default [
       title: "首页"
     },
     component: () => import("@/views/Home.vue")
-  },
-  {
-    path: "/about",
-    name: "about",
-    component: () => import("@/views/About.vue")
   }
 ];
