@@ -10,6 +10,9 @@ export default {
     return {
       isCollapsed: false
     };
+  },
+  created(){
+    console.log(this.$store.getters.menuList)
   }
 };
 </script>
