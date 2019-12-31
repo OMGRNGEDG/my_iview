@@ -1,3 +1,4 @@
+import Main from "../components/main/index"
 export default [
   {
     path: "/login",
@@ -9,10 +10,25 @@ export default [
   },
   {
     path: "/",
-    name: "home",
+    name: "_home",
     meta: {
       title: "首页"
     },
-    component: () => import("@/views/Home.vue")
+    component: Main,
+    redirect: '/home',
+    children: [
+      {
+        path: '/home',
+        name: 'home',
+        meta: {
+          hideInMenu: true,
+          title: '首页',
+          notCache: true,
+          icon: 'md-home'
+        },
+        component: () => import("@/views/Home.vue")
+      }
+    ],
+
   }
 ];
