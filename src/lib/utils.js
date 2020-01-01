@@ -1,6 +1,6 @@
 import Cookies from "js-cookie";
 import CryptoJS from "crypto-js";
-
+const useI18n = null;
 function getAesString(data, key, iv) {
   //加密
   var nowkey = CryptoJS.enc.Utf8.parse(key);
@@ -118,4 +118,42 @@ export const getMenuByRouter = (list, access) => {
     }
   });
   return res;
+};
+
+export const showTitle = (item, vm) => {
+  let { title, __titleIsFunction__ } = item.meta;
+  if (!title) return;
+  if (useI18n) {
+    if (title.includes("{{") && title.includes("}}") && useI18n)
+      title = title.replace(/({{[\s\S]+?}})/, (m, str) =>
+        str.replace(/{{([\s\S]*)}}/, (m, _) => vm.$t(_.trim()))
+      );
+    else if (__titleIsFunction__) title = item.meta.title;
+    else title = vm.$t(item.name);
+  } else title = (item.meta && item.meta.title) || item.name;
+  return title;
+};
+
+/**
+ * @param {Array} arr1
+ * @param {Array} arr2
+ * @description 得到两个数组的并集, 两个数组的元素为数值或字符串
+ */
+export const getUnion = (arr1, arr2) => {
+  return Array.from(new Set([...arr1, ...arr2]));
+};
+
+export const findNodeUpperByClasses = (ele, classes) => {
+  let parentNode = ele.parentNode;
+  if (parentNode) {
+    let classList = parentNode.classList;
+    if (
+      classList &&
+      classes.every(className => classList.contains(className))
+    ) {
+      return parentNode;
+    } else {
+      return findNodeUpperByClasses(parentNode, classes);
+    }
+  }
 };

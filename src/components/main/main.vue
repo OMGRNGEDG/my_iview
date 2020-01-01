@@ -2,32 +2,28 @@
   <div class="layout">
     <Layout>
       <Sider
-        class="sider_home"
-        breakpoint="md"
+        hide-trigger
         collapsible
-        :collapsed-width="78"
-        v-model="isCollapsed"
+        :width="256"
+        :collapsed-width="64"
+        v-model="collapsed"
+        class="left-sider sider_home"
+        :style="{ overflow: 'hidden' }"
       >
-        <Menu
-          active-name="1-1"
-          theme="dark"
-          width="auto"
-          :class="menuitemClasses"
+        <side-menu
+          accordion
+          ref="sideMenu"
+          :active-name="$route.name"
+          :collapsed="collapsed"
+          @on-select="turnToPage"
+          :menu-list="menuList"
         >
-          <MenuItem name="1-1">
-            <Icon type="ios-navigate"></Icon>
-            <span>Option 1</span>
-          </MenuItem>
-          <MenuItem name="1-2">
-            <Icon type="ios-search"></Icon>
-            <span>Option 2</span>
-          </MenuItem>
-          <MenuItem name="1-3">
-            <Icon type="ios-settings"></Icon>
-            <span>Option 3</span>
-          </MenuItem>
-        </Menu>
-        <div slot="trigger"></div>
+          <!-- 需要放在菜单上面的内容，如Logo，写在side-menu标签内部，如下 -->
+          <!-- <div class="logo-con">
+            <img v-show="!collapsed" :src="maxLogo" key="max-logo" />
+            <img v-show="collapsed" :src="minLogo" key="min-logo" />
+          </div> -->
+        </side-menu>
       </Sider>
       <Layout>
         <Header class="layout-header-bar"></Header>
@@ -43,16 +39,44 @@
   </div>
 </template>
 <script>
+import SideMenu from "./components/side-menu";
 export default {
   name: "Main",
+  components: {
+    SideMenu
+  },
   data() {
     return {
-      isCollapsed: false
+      collapsed: false,
+      isFullscreen: false
     };
   },
   computed: {
     menuitemClasses: function() {
       return ["menu-item", this.isCollapsed ? "collapsed-menu" : ""];
+    },
+    menuList() {
+      return this.$store.getters.menuList;
+    }
+  },
+  methods: {
+    turnToPage(route) {
+      let { name, params, query } = {};
+      if (typeof route === "string") name = route;
+      else {
+        name = route.name;
+        params = route.params;
+        query = route.query;
+      }
+      if (name.indexOf("isTurnByHref_") > -1) {
+        window.open(name.split("_")[1]);
+        return;
+      }
+      this.$router.push({
+        name,
+        params,
+        query
+      });
     }
   }
 };

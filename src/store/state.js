@@ -1,5 +1,5 @@
 const state = {
   goodList: "change",
   userInfo: null
-}
-export default state
+};
+export default state;
