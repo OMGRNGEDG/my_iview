@@ -1,4 +1,4 @@
-import Main from "../components/main/index"
+import Main from "../components/main/index";
 export default [
   {
     path: "/login",
@@ -15,20 +15,19 @@ export default [
       title: "首页"
     },
     component: Main,
-    redirect: '/home',
+    redirect: "/home",
     children: [
       {
-        path: '/home',
-        name: 'home',
+        path: "/home",
+        name: "home",
         meta: {
           hideInMenu: true,
-          title: '首页',
+          title: "首页",
           notCache: true,
-          icon: 'md-home'
+          icon: "md-home"
         },
         component: () => import("@/views/Home.vue")
       }
-    ],
-
+    ]
   }
 ];

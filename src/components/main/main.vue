@@ -8,7 +8,12 @@
         :collapsed-width="78"
         v-model="isCollapsed"
       >
-        <Menu active-name="1-1" theme="dark" width="auto" :class="menuitemClasses">
+        <Menu
+          active-name="1-1"
+          theme="dark"
+          width="auto"
+          :class="menuitemClasses"
+        >
           <MenuItem name="1-1">
             <Icon type="ios-navigate"></Icon>
             <span>Option 1</span>
@@ -26,7 +31,9 @@
       </Sider>
       <Layout>
         <Header class="layout-header-bar"></Header>
-        <Content :style="{margin: '20px', background: '#fff', minHeight: '220px'}">
+        <Content
+          :style="{ margin: '20px', background: '#fff', minHeight: '220px' }"
+        >
           <keep-alive>
             <router-view />
           </keep-alive>

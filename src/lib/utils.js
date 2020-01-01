@@ -44,7 +44,7 @@ export function decrypt(data) {
 }
 
 export const setToken = (token, tokenName = "TOKEN") => {
-  let parsewords = encryption(token);
+  let parsewords = encryption(JSON.stringify(token));
   Cookies.set(tokenName, parsewords);
 };
 
@@ -64,56 +64,58 @@ export const changeTiele = (title = "管理系统") => {
   window.document.title = title;
 };
 
-
 /**
  * @param {Array} target 目标数组
  * @param {Array} arr 需要查询的数组
  * @description 判断要查询的数组是否至少有一个元素包含在目标数组中
  */
 const hasOneOf = (targetarr, arr) => {
-  return targetarr.some(_ => arr.indexOf(_) > -1)
-}
+  return targetarr.some(_ => arr.indexOf(_) > -1);
+};
 
 const showThisMenuEle = (item, access) => {
   if (item.meta && item.meta.access && item.meta.access.length) {
-    if (hasOneOf(item.meta.access, access)) return true
-    else return false
-  } else return true
-}
+    if (hasOneOf(item.meta.access, access)) return true;
+    else return false;
+  } else return true;
+};
 
 const forEach = (arr, fn) => {
-  if (!arr.length || !fn) return
-  let i = -1
-  let len = arr.length
+  if (!arr.length || !fn) return;
+  let i = -1;
+  let len = arr.length;
   while (++i < len) {
-    let item = arr[i]
-    fn(item, i, arr)
+    let item = arr[i];
+    fn(item, i, arr);
   }
-}
+};
 
-export const hasChild = (item) => {
-  return item.children && item.children.length !== 0
-}
+export const hasChild = item => {
+  return item.children && item.children.length !== 0;
+};
 
 /**
  * @param {Array} list 通过路由列表得到菜单列表
  * @returns {Array}
  */
 export const getMenuByRouter = (list, access) => {
-  let res = []
+  let res = [];
   forEach(list, item => {
     if (!item.meta || (item.meta && !item.meta.hideInMenu)) {
       let obj = {
-        icon: (item.meta && item.meta.icon) || '',
+        icon: (item.meta && item.meta.icon) || "",
         name: item.name,
         meta: item.meta
+      };
+      if (
+        (hasChild(item) || (item.meta && item.meta.showAlways)) &&
+        showThisMenuEle(item, access)
+      ) {
+        obj.children = getMenuByRouter(item.children, access);
       }
-      if ((hasChild(item) || (item.meta && item.meta.showAlways)) && showThisMenuEle(item, access)) {
-        obj.children = getMenuByRouter(item.children, access)
-      }
-      if (item.meta && item.meta.href) obj.href = item.meta.href
-      if (showThisMenuEle(item, access)) res.push(obj)
+      if (item.meta && item.meta.href) obj.href = item.meta.href;
+      if (showThisMenuEle(item, access)) res.push(obj);
     }
-  })
-  return res
-}
+  });
+  return res;
+};

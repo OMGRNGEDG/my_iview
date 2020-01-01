@@ -3,7 +3,12 @@
     <div class="login-con">
       <Card icon="log-in" title="欢迎登录" :bordered="false">
         <div class="form-con">
-          <Form ref="loginForm" :model="form" :rules="rules" @keydown.enter.native="handleSubmit">
+          <Form
+            ref="loginForm"
+            :model="form"
+            :rules="rules"
+            @keydown.enter.native="handleSubmit"
+          >
             <FormItem prop="userName">
               <Input v-model="form.userName" placeholder="请输入用户名">
                 <span slot="prepend">
@@ -12,7 +17,11 @@
               </Input>
             </FormItem>
             <FormItem prop="password">
-              <Input type="password" v-model="form.password" placeholder="请输入密码">
+              <Input
+                type="password"
+                v-model="form.password"
+                placeholder="请输入密码"
+              >
                 <span slot="prepend">
                   <Icon :size="14" type="md-lock"></Icon>
                 </span>
@@ -29,7 +38,6 @@
   </div>
 </template>
 <script>
-import { setToken } from "@/lib/utils";
 import { mapActions } from "vuex";
 export default {
   props: {
@@ -82,7 +90,7 @@ export default {
       });
       if (isFlag === false) return;
       this.login({ userName: this.form.userName, password: this.form.password })
-        .then(data => {
+        .then(() => {
           this.$router.replace({
             name: "home"
           });

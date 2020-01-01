@@ -11,10 +11,9 @@ export default {
       isCollapsed: false
     };
   },
-  created(){
-    console.log(this.$store.getters.menuList)
+  created() {
+    console.log(this.$store.getters.menuList);
   }
 };
 </script>
-<style scoped>
-</style>
+<style scoped></style>
